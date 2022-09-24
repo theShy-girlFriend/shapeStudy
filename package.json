@@ -1,0 +1,24 @@
+{
+  "name": "shape",
+  "version": "1.0.0",
+  "description": "",
+  "main": "edge.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theShy-girlFriend/shapeStudy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theShy-girlFriend/shapeStudy/issues"
+  },
+  "homepage": "https://github.com/theShy-girlFriend/shapeStudy#readme",
+  "devDependencies": {
+    "babel-loader": "^8.2.5",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
