@@ -18,14 +18,20 @@ class Edge {
          let ap1 = point.sub(this.p1);
          let edge = this.p2.sub(this.p1);
          let ap2 = point.sub(this.p2);
-         let r = ap1.dot(edge) / (edge.length() * edge.length());
+         let edgeLength = edge.length();
+         let r = ap1.dot(edge) / (edgeLength * edgeLength);
          if(r < 0) {
             return ap1.length();
          }else if(r > 1) {
             return ap2.length();
          }else {
-            return Math.sqrt(ap1.length() * ap1.length() - edge.length() * r * edge.length() * r)
+            let ap1Length = ap1.length();
+            return Math.sqrt(ap1Length * ap1Length - edgeLength * r * edgeLength * r)
          }
+    }
+    // 两条线段的交点
+    edgeIntersect(dege){
+
     }
 }
 
