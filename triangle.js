@@ -9,6 +9,10 @@ class Triangle {
         if(this.edge1.add(this.edge2) !== this.edge3){
             return 'not a triangle'
         }
+        // 判断是否共线
+        if(this.edge1.cross(this.edge2).length() === 0){
+            return 'not a triangle'
+        }
     }
     // 周长
     perimeter() {
