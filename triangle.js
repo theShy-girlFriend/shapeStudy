@@ -2,30 +2,56 @@ import { Vector3 } from "./vector.js";
 
 // 三角形
 class Triangle {
-    constructor(edge1, edge2, edge3){
-        this.edge1 = this.edge1.sub(this.edge2); // 边1
-        this.edge2 = this.edge1.sub(this.edge3); // 边2
-        this.edge3 = this.edge2.sub(this.edge3); // 边3
-        if(this.edge1.add(this.edge2) !== this.edge3){
+    constructor(point1, point2, point3){
+        this.point1 = point1; // 顶点1
+        this.point2 = point2; // 顶点2
+        this.point3 = point3; // 顶点3
+        let edge1 = this.point1.sub(this.point2); // 边1
+        let edge2 = this.point1.sub(this.point3); // 边2
+        let edge3 = this.point2.sub(this.point3); // 边3
+        if(edge1.add(edge2) !== edge3){
             return 'not a triangle'
         }
         // 判断是否共线
-        if(this.edge1.cross(this.edge2).length() === 0){
+        if(edge1.cross(edge2).length() === 0 || edge1.cross(edge3).length() === 0 || edge2.cross(edge3).length() === 0){
             return 'not a triangle'
         }
     }
     // 周长
     perimeter() {
-        let edge1Length = this.edge1.length(); // 边1的长
-        let edge2Length = this.edge2.length(); // 边2的长
-        let edge3Length = this.edge3.length(); // 边3的长
+        let edge1Length = this.point1.distanceTo(this.point2); // 边1的长
+        let edge2Length = this.point1.distanceTo(this.point3); // 边2的长
+        let edge3Length = this.point2.distanceTo(this.point3); // 边3的长
         return edge1Length + edge2Length + edge3Length;
     }
     // 面积 --海伦公式(p为周长的一半)
     // s = √p(p - a)(p - b)(p - c)
     area() {
         let p = this.perimeter() / 2;
-        let s = Math.sqrt(p * (p - this.edge1.length())*(p - this.edge2.length())*(p - this.edge3.length()))
+        let s = Math.sqrt(p * (p - this.point1.distanceTo(this.point2))*(p - this.point1.distanceTo(this.point3))*(p - this.point2.distanceTo(this.point3)))
         return s;
+    }
+    // 判断点是否在三角形内
+    // 点与顶点构成的向量，进行叉乘，同号则在同一方向
+    isContainPoint(vector) {
+
+    }
+    // 三角形包围盒
+    getBoundingBox() {
+        let xMax = Math.max(this.point1.x, this.point2.x, this.point3.x);
+        let yMax = Math.max(this.point1.y, this.point2.y, this.point3.y);
+        let zMax = Math.max(this.point1.z, this.point2.z, this.point3.z);
+        let pMax = new Vector3(xMax, yMax, zMax)
+
+        let xMin = Math.min(this.point1.x, this.point2.x, this.point3.x);
+        let yMin = Math.min(this.point1.y, this.point2.y, this.point3.y);
+        let zMin =  Math.min(this.point1.z, this.point2.z, this.point3.z);
+        let pMin = new Vector3(xMin, yMin, zMin)
+        let s = pMax.sub(pMin);
+
+        let pLeftTop = new Vector3(xMin, yMin + s.y, zMin);
+        let pRightBottom = new Vector3(xMax + s.x, yMax, zMax)
+
+        return [pMin, pLeftTop, pMax, pRightBottom]
     }
 }

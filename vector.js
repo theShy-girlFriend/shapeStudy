@@ -18,6 +18,13 @@ export class Vector3 {
         let z = this.z - v.z;
         return new Vector3(x, y, z)
     }
+    // 向量间的距离
+    distanceTo(v) {
+        let x = this.x - v.x;
+        let y = this.y - v.y;
+        let z = this.z - v.z;
+        return Math.sqrt(x * x + y * y +  z * z);
+    }
     // 向量和标量乘法
     multiplyScalar(num) {
         let x = this.x * num;
