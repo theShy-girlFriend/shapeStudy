@@ -27,8 +27,7 @@ class Triangle {
     // 面积 --海伦公式(p为周长的一半)
     // s = √p(p - a)(p - b)(p - c)
     area() {
-        let p = this.perimeter() / 2;
-        let s = Math.sqrt(p * (p - this.point1.distanceTo(this.point2))*(p - this.point1.distanceTo(this.point3))*(p - this.point2.distanceTo(this.point3)))
+        let s = this.point1.sub(this.point2).cross(this.point1.sub(this.point3)).length() / 2;
         return s;
     }
     // 判断点是否在三角形内
@@ -54,4 +53,21 @@ class Triangle {
 
         return [pMin, pLeftTop, pMax, pRightBottom]
     }
+
+    // 获取点p对应的重心坐标
+    getBarycentric(p) {
+        let s = this.area() * 2;
+        console.log(s)
+        let u = (p.sub(this.point1)).cross(this.point1.sub(this.point2)).length() / s;
+        let v = p.sub(this.point2).cross(this.point2.sub(this.point3)).length() / s;
+        let w = (p.sub(this.point3)).cross(this.point1.sub(this.point3)).length() / s;
+        return [u,v,w]
+    }
 }
+
+let testTriangle = new Triangle(new Vector3(0,0,0), new Vector3(3,0,0), new Vector3(0,4,0));
+let edge1=testTriangle.point1.sub(testTriangle.point2);
+let edge2 = testTriangle.point1.sub(testTriangle.point3);
+console.log(testTriangle.area(), '三角形面积');
+
+console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
