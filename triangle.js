@@ -6,15 +6,17 @@ class Triangle {
         this.point1 = point1; // 顶点1
         this.point2 = point2; // 顶点2
         this.point3 = point3; // 顶点3
+        
         let edge1 = this.point1.sub(this.point2); // 边1
         let edge2 = this.point1.sub(this.point3); // 边2
         let edge3 = this.point2.sub(this.point3); // 边3
         if(edge1.add(edge2) !== edge3){
-            return 'not a triangle'
+            throw new Error('not a triangle');
         }
+        
         // 判断是否共线
         if(edge1.cross(edge2).length() === 0 || edge1.cross(edge3).length() === 0 || edge2.cross(edge3).length() === 0){
-            return 'not a triangle'
+            throw new Error('not a triangle');
         }
     }
     // 周长
@@ -71,3 +73,7 @@ let edge2 = testTriangle.point1.sub(testTriangle.point3);
 console.log(testTriangle.area(), '三角形面积');
 
 console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
+console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
+console.log(testTriangle.getBoundingBox(), '包围盒');
+let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
+console.log(test)
