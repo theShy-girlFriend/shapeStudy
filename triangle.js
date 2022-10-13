@@ -10,9 +10,9 @@ class Triangle {
         let edge1 = this.point1.sub(this.point2); // 边1
         let edge2 = this.point1.sub(this.point3); // 边2
         let edge3 = this.point2.sub(this.point3); // 边3
-        if(edge1.add(edge2) !== edge3){
-            throw new Error('not a triangle');
-        }
+        // if(edge1.add(edge2) !== edge3){
+        //     throw new Error('not a triangle');
+        // }
         
         // 判断是否共线
         if(edge1.cross(edge2).length() === 0 || edge1.cross(edge3).length() === 0 || edge2.cross(edge3).length() === 0){
@@ -58,11 +58,19 @@ class Triangle {
 
     // 获取点p对应的重心坐标
     getBarycentric(p) {
-        let s = this.area() * 2;
-        console.log(s)
-        let u = (p.sub(this.point1)).cross(this.point1.sub(this.point2)).length() / s;
-        let v = p.sub(this.point2).cross(this.point2.sub(this.point3)).length() / s;
-        let w = (p.sub(this.point3)).cross(this.point1.sub(this.point3)).length() / s;
+        let s = (this.point1.sub(this.point2).cross(this.point1.sub(this.point3)));
+        console.log(s, 's')
+        let n = (this.point1.sub(this.point2).cross(this.point1.sub(this.point3))).multiplyScalar(1 / (this.point1.sub(this.point2).cross(this.point1.sub(this.point3))).length());
+        console.log(n, 'n')
+        console.log(this.point1.sub(this.point2).cross(this.point1.sub(this.point3)), 111)
+        console.log((this.point1.sub(this.point2).cross(this.point1.sub(this.point3))).length(), 222)
+        let u = (p.sub(this.point1)).cross(this.point1.sub(this.point2)).dot(n) / s.dot(n);
+        let v = p.sub(this.point2).cross(this.point2.sub(this.point3)).dot(n) / s.dot(n);
+        let w = (p.sub(this.point3)).cross(this.point1.sub(this.point3)).dot(n) / s.dot(n);
+        let sum = u + v + w;
+        // if(sum > 1){
+        //     throw new Error('点不在三角形内')
+        // }
         return [u,v,w]
     }
 }
@@ -72,7 +80,6 @@ let edge1=testTriangle.point1.sub(testTriangle.point2);
 let edge2 = testTriangle.point1.sub(testTriangle.point3);
 console.log(testTriangle.area(), '三角形面积');
 
-console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
 console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
 console.log(testTriangle.getBoundingBox(), '包围盒');
 let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
