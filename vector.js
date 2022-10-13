@@ -42,7 +42,7 @@ export class Vector3 {
     // 叉乘
     cross(v) {
         let x = this.y * v.z - this.z * v.y;
-        let y = this.x * v.z - this.z * v.x;
+        let y = this.z * v.x - this.x * v.z;
         let z = this.x * v.y - this.y * v.x;
         return new Vector3(x, y, z)
     }
