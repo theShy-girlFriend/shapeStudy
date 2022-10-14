@@ -10,6 +10,7 @@ export class Graphics{
         this.ctx = context;
         this.canvas = context.canvas;
         this.canvas.willReadFrequently = true;
+        this.frameBufferDirty = true;
         this.size = {
             width: this.canvas.width,
             height: this.canvas.height
@@ -18,11 +19,15 @@ export class Graphics{
     }
 
     setPixel(x, y, color){
-        this.frameBuffer
+        // this.frameBuffer
     }
 
     getPixel(x, y, color){
 
+    }
+
+    setFrameBufferDirty(){
+        this.frameBufferDirty = true;
     }
 
     clear(clear_flag, value){
@@ -39,6 +44,9 @@ export class Graphics{
     }
 
     updateFrameBufferFromCtx(){
-        this.frameBuffer = this.ctx.getImageData(0, 0, this.size.width, this.size.height);
+        if (this.frameBufferDirty){
+            this.frameBuffer = this.ctx.getImageData(0, 0, this.size.width, this.size.height);
+            this.frameBufferDirty = false;
+        }
     }
 }
