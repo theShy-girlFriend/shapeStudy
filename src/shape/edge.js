@@ -1,5 +1,5 @@
 
-import { Vector3 } from "./vector.js";
+import { Vector3 } from "../math/vector.js";
 // 边
 class Edge {
     // 顶点

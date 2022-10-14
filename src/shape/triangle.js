@@ -1,4 +1,4 @@
-import { Vector3 } from "./vector.js";
+import { Vector3 } from "../math/vector.js";
 
 // 三角形
 class Triangle {

@@ -14,11 +14,18 @@
     <div class="relative w-screen h-screen">
       <div class="template w-full h-full bg-black"></div>
     </div>
+    <script type="module" src="./src/main.js"></script>
+    <style>
+      #main_canvas{
+        border-width: 1px;
+        border-style: solid;
+        border-color: black;
+      }
+    </style>
   </head>
   <body>
-    <div id="map" class="map-container"></div>
+    <canvas width="800" height="600" id="main_canvas"></canvas>
     <!-- <script src="./vector.js"></script> -->
     <!-- <script type="module" src="./edge.js"></script> -->
-    <script type="module" src="./triangle.js"></script>
   </body>
 </html>
