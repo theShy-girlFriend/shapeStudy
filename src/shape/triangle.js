@@ -53,13 +53,17 @@ class Triangle {
         let pLeftTop = new Vector3(xMin, yMin + s.y, zMin);
         let pRightBottom = new Vector3(xMax + s.x, yMax, zMax)
 
+        //Fix: 包围盒仅需要两个点就可表示, pLeftTop和pRightBottom计算多余
         return [pMin, pLeftTop, pMax, pRightBottom]
     }
 
     // 获取点p对应的重心坐标
     getBarycentric(p) {
         let s = (this.point1.sub(this.point2).cross(this.point1.sub(this.point3)));
+        //Fix: 1. this.point3.sub(this.point1).cross(this.point3.sub(this.point2))重复计算两次，不必要的消耗，考虑缓存起来
+        //Fix: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
         let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).multiplyScalar(1 / (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).length());
+        //Fix: s.dot(n)重复计算多次，考虑缓存起来
         let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / s.dot(n);
         let v = this.point2.sub(p).cross(this.point3.sub(this.point2)).dot(n) / s.dot(n);
         let w = (this.point3.sub(p)).cross(this.point1.sub(this.point3)).dot(n) / s.dot(n);
@@ -67,10 +71,11 @@ class Triangle {
         // if(sum > 1){
         //     throw new Error('点不在三角形内')
         // }
-        return [u,v,w]
+        //Fix: 没有判定u,v,w的有效性，u+v+w必须等于1，且u,v,w必须同时位于[0, 1]区间内
+        return [u,v,w];
     }
 }
-
+//Fix: 测试代码单独放在一个函数中，不要直接放在文件中
 let testTriangle = new Triangle(new Vector3(0,0,0), new Vector3(3,0,0), new Vector3(0,4,0));
 let edge1=testTriangle.point1.sub(testTriangle.point2);
 let edge2 = testTriangle.point1.sub(testTriangle.point3);

@@ -1,9 +1,17 @@
 export class Vector3 {
+
     constructor(x,y,z){
-        this.x = x; // x坐标
-        this.y = y; // y坐标
-        this.z = z; // z坐标
+        this.x = x || 0; // x坐标
+        this.y = y || 0; // y坐标
+        this.z = z || 0; // z坐标
     }
+
+    static zero = new Vector3(0, 0, 0);
+    static one = new Vector3(1, 1, 1);
+    static up = new Vector3(0, 1, 0);
+    static right = new Vector3(1, 0, 0);
+    static forward = new Vector3(0, 0, 1);
+
     // 向量加法
     add(v) {
         let x = this.x + v.x;
@@ -57,6 +65,7 @@ export class Vector3 {
     length() {
         return Math.sqrt(this.x * this.x + this.y * this.y +  this.z * this.z);
     }
+    //Fix: 浮点型数值和0的判定
     // 是否为零向量
     isZero() {
         if(this.x === 0 && this.y === 0 && this.z === 0) return true;
@@ -78,6 +87,7 @@ export class Vector3 {
 
 }
 
+//Fix: 测试代码单独放在一个函数中，不要直接放在文件中
 let testV3 = new Vector3(0, 2, 0);
 console.log(testV3, '创建向量');
 console.log(testV3.isZero(), '零向量');

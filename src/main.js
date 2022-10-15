@@ -1,19 +1,20 @@
 
+import { Color } from "./comm/color.js";
 import { Graphics, ClearFlag } from "./core/graphics.js"
+import { Vector3 } from "./math/vector.js";
 
 let fps_interval, starttime, now, last, elapsed, dt;
 let canvas, context, graphics;
+const radius = 300;
+let degree = 0;
 
 window.onload = (e) => {
 
     canvas = document.getElementById("main_canvas");
-    context = canvas.getContext("2d");
+    context = canvas.getContext("2d", {willReadFrequently: true});
     graphics = new Graphics(context);
 
-    console.log("hello world", e);
-
-    render()
-    init({fps: 60});
+    init({fps: 120});
 }
 
 function init(args) {
@@ -38,6 +39,22 @@ function frame_loop(){
 }
 
 function render(dt) {
-    graphics.clear(ClearFlag.Background, "black");
+    graphics.clear(ClearFlag.Background, "white");
+    ///////////////////////在这里写绘制图形的逻辑-begin////////////////////////
     
+    degree += dt * 20;
+    let r = degree * Math.PI / 180.0;
+    let s = Math.sin(r);
+    let c = Math.cos(r);
+
+    let center = new Vector3(400, 300);
+    let p1 = center.add(new Vector3(c * radius, s * radius, 0));
+
+    // graphics.DDALine(center, p1, Color.black);
+    graphics.bresenhamLine(center, p1, Color.black);
+    // graphics.bresenhamLine(new Vector3(0, 0, 0), new Vector3(100, 50, 0) , Color.black);
+    // graphics.DDALine(p1, p2, Color.black);
+
+    ///////////////////////在这里写绘制图形的逻辑-end////////////////////////
+    graphics.submitFrameBuffer();
 }

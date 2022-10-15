@@ -19,6 +19,7 @@ class Edge {
          let edge = this.p2.sub(this.p1);
          let ap2 = point.sub(this.p2);
          let edgeLength = edge.length();
+         //Fix: edgeLength * edgeLength 是不是等于edge.length()不开平方？
          let r = ap1.dot(edge) / (edgeLength * edgeLength);
          if(r < 0) {
             return ap1.length();
@@ -26,6 +27,8 @@ class Edge {
             return ap2.length();
          }else {
             let ap1Length = ap1.length();
+            //Fix: 1. 同上，ap1Length的开平方又平方问题
+            //Fix: 2. edgeLength * r * edgeLength * r可以化简
             return Math.sqrt(ap1Length * ap1Length - edgeLength * r * edgeLength * r)
          }
     }
@@ -35,5 +38,6 @@ class Edge {
     }
 }
 
+//Fix: 测试代码单独放在一个函数中，不要直接放在文件中
 let edge1 = new Edge(new Vector3(0,1,2), new Vector3(2, 3 ,3));
 console.log(edge1.distanceToPoint(new Vector3(0,2,1)), '点到线段的最短距离');
