@@ -68,7 +68,7 @@ export class Vector3 {
     //Fix: 浮点型数值和0的判定
     // 是否为零向量
     isZero() {
-        if(this.x === 0 && this.y === 0 && this.z === 0) return true;
+        if(Math.abs(this.x - 0) < 1e-5 && Math.abs(this.y - 0) < 1e-5 && Math.abs(this.z - 0) < 1e-5) return true;
         else return false;
     }
     // 单位向量
