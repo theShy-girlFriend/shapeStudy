@@ -56,10 +56,11 @@ class Triangle {
         //Fixed: 1. this.point3.sub(this.point1).cross(this.point3.sub(this.point2))重复计算两次，不必要的消耗，考虑缓存起来
         //Fixed: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
         let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).normalize();
+        let sDot = s.dot(n);
         //Fix: s.dot(n)重复计算多次，考虑缓存起来
-        let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / s.dot(n);
-        let v = this.point2.sub(p).cross(this.point3.sub(this.point2)).dot(n) / s.dot(n);
-        let w = (this.point3.sub(p)).cross(this.point1.sub(this.point3)).dot(n) / s.dot(n);
+        let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / sDot;
+        let v = this.point2.sub(p).cross(this.point3.sub(this.point2)).dot(n) / sDot;
+        let w = (this.point3.sub(p)).cross(this.point1.sub(this.point3)).dot(n) / sDot;
         let sum = u + v + w;
         let testNum = (num) => {
             if(num > 1 || num < 0) {
