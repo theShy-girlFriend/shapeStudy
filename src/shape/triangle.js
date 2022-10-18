@@ -34,6 +34,12 @@ class Triangle {
     isContainPoint(vector) {
 
     }
+
+    // 判定一个2D的点是否在2D三角形内（只考虑三角形的xy坐标和v的xy坐标）
+    isContainPoint2D(v){
+
+    }
+
     // 三角形包围盒
     getBoundingBox() {
         let xMax = Math.max(this.point1.x, this.point2.x, this.point3.x);
