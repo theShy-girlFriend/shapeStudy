@@ -18,18 +18,16 @@ class Edge {
          let ap1 = point.sub(this.p1);
          let edge = this.p2.sub(this.p1);
          let ap2 = point.sub(this.p2);
-         let edgeLength = edge.length();
          //Fix: edgeLength * edgeLength 是不是等于edge.length()不开平方？
-         let r = ap1.dot(edge) / (edgeLength * edgeLength);
+         let r = ap1.dot(edge) / edge.sqrLength();
          if(r < 0) {
             return ap1.length();
          }else if(r > 1) {
             return ap2.length();
          }else {
-            let ap1Length = ap1.length();
             //Fix: 1. 同上，ap1Length的开平方又平方问题
             //Fix: 2. edgeLength * r * edgeLength * r可以化简
-            return Math.sqrt(ap1Length * ap1Length - edgeLength * r * edgeLength * r)
+            return Math.sqrt(ap1.sqrLength()- r *  ap1.dot(edge))
          }
     }
     // 两条线段的交点

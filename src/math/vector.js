@@ -63,7 +63,7 @@ export class Vector3 {
     }
     // 向量长度
     length() {
-        return Math.sqrt(this.x * this.x + this.y * this.y +  this.z * this.z);
+        return Math.sqrt(this.sqrLength());
     }
     //Fix: 浮点型数值和0的判定
     // 是否为零向量
@@ -83,6 +83,9 @@ export class Vector3 {
     angle(v) {
        let angle = Math.acos(this.dot(v) / (this.length() * v.length()));
        return angle; 
+    }
+    sqrLength() {
+        return this.x * this.x + this.y * this.y +  this.z * this.z; 
     }
 
 }
