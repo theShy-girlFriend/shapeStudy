@@ -76,12 +76,14 @@ class Triangle {
     }
 }
 //Fix: 测试代码单独放在一个函数中，不要直接放在文件中
-let testTriangle = new Triangle(new Vector3(0,0,0), new Vector3(3,0,0), new Vector3(0,4,0));
-let edge1=testTriangle.point1.sub(testTriangle.point2);
-let edge2 = testTriangle.point1.sub(testTriangle.point3);
-console.log(testTriangle.area(), '三角形面积');
-
-console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
-console.log(testTriangle.getBoundingBox(), '包围盒');
-let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
-console.log(test)
+function testTriangle() {
+    let testTriangle = new Triangle(new Vector3(0,0,0), new Vector3(3,0,0), new Vector3(0,4,0));
+    let edge1=testTriangle.point1.sub(testTriangle.point2);
+    let edge2 = testTriangle.point1.sub(testTriangle.point3);
+    console.log(testTriangle.area(), '三角形面积');
+    
+    console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
+    console.log(testTriangle.getBoundingBox(), '包围盒');
+    let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
+    console.log(test)
+}

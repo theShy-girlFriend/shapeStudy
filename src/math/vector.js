@@ -91,15 +91,18 @@ export class Vector3 {
 }
 
 //Fix: 测试代码单独放在一个函数中，不要直接放在文件中
-let testV3 = new Vector3(0, 2, 0);
-console.log(testV3, '创建向量');
-console.log(testV3.isZero(), '零向量');
-console.log(testV3.length(), '向量长度')
-console.log(testV3.negate(), '向量取反');
-console.log(testV3.normalize(), '单位向量');
-console.log(testV3.add(new Vector3(0, 0, 0)), '向量加法');
-console.log(testV3.sub(new Vector3(0, 0, 0)), '向量减法');
-console.log(testV3.multiplyScalar(2), '向量与标量乘法');
-console.log(testV3.dot(new Vector3(0, 0, 0)), '向量点乘');
-console.log(testV3.cross(new Vector3(0, 0, 0)), '向量叉乘');
-console.log(testV3.angle(new Vector3(1, 0, 0)), '向量间的角度');
+function testV3() {
+    let testV3 = new Vector3(0, 2, 0);
+    console.log(testV3, '创建向量');
+    console.log(testV3.isZero(), '零向量');
+    console.log(testV3.length(), '向量长度')
+    console.log(testV3.negate(), '向量取反');
+    console.log(testV3.normalize(), '单位向量');
+    console.log(testV3.add(new Vector3(0, 0, 0)), '向量加法');
+    console.log(testV3.sub(new Vector3(0, 0, 0)), '向量减法');
+    console.log(testV3.multiplyScalar(2), '向量与标量乘法');
+    console.log(testV3.dot(new Vector3(0, 0, 0)), '向量点乘');
+    console.log(testV3.cross(new Vector3(0, 0, 0)), '向量叉乘');
+    console.log(testV3.angle(new Vector3(1, 0, 0)), '向量间的角度');
+} 
+

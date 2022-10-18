@@ -37,5 +37,7 @@ class Edge {
 }
 
 //Fix: 测试代码单独放在一个函数中，不要直接放在文件中
-let edge1 = new Edge(new Vector3(0,1,2), new Vector3(2, 3 ,3));
-console.log(edge1.distanceToPoint(new Vector3(0,2,1)), '点到线段的最短距离');
+function testEdge() {
+   let edge1 = new Edge(new Vector3(0,1,2), new Vector3(2, 3 ,3));
+   console.log(edge1.distanceToPoint(new Vector3(0,2,1)), '点到线段的最短距离');
+}
