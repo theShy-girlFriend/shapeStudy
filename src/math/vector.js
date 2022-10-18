@@ -90,7 +90,7 @@ export class Vector3 {
 
 }
 
-//Fix: 测试代码单独放在一个函数中，不要直接放在文件中
+//Fixed: 测试代码单独放在一个函数中，不要直接放在文件中
 function testV3() {
     let testV3 = new Vector3(0, 2, 0);
     console.log(testV3, '创建向量');

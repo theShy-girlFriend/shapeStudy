@@ -46,15 +46,15 @@ class Triangle {
         let zMin =  Math.min(this.point1.z, this.point2.z, this.point3.z);
         let pMin = new Vector3(xMin, yMin, zMin)
 
-        //Fix: 包围盒仅需要两个点就可表示, pLeftTop和pRightBottom计算多余
+        //Fixed: 包围盒仅需要两个点就可表示, pLeftTop和pRightBottom计算多余
         return [pMin,  pMax]
     }
 
     // 获取点p对应的重心坐标
     getBarycentric(p) {
         let s = (this.point1.sub(this.point2).cross(this.point1.sub(this.point3)));
-        //Fix: 1. this.point3.sub(this.point1).cross(this.point3.sub(this.point2))重复计算两次，不必要的消耗，考虑缓存起来
-        //Fix: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
+        //Fixed: 1. this.point3.sub(this.point1).cross(this.point3.sub(this.point2))重复计算两次，不必要的消耗，考虑缓存起来
+        //Fixed: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
         let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).normalize();
         //Fix: s.dot(n)重复计算多次，考虑缓存起来
         let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / s.dot(n);
@@ -71,12 +71,12 @@ class Triangle {
         if(sum !== 1 || testNum(u) || testNum(v) || testNum(w)){
             throw new Error('重心坐标不成立')
         }
-        //Fix: 没有判定u,v,w的有效性，u+v+w必须等于1，且u,v,w必须同时位于[0, 1]区间内
+        //Fixed: 没有判定u,v,w的有效性，u+v+w必须等于1，且u,v,w必须同时位于[0, 1]区间内
         return [u,v,w];
     }
 }
-//Fix: 测试代码单独放在一个函数中，不要直接放在文件中
-function testTriangle() {
+//Fixed: 测试代码单独放在一个函数中，不要直接放在文件中
+export function testTriangle() {
     let testTriangle = new Triangle(new Vector3(0,0,0), new Vector3(3,0,0), new Vector3(0,4,0));
     let edge1=testTriangle.point1.sub(testTriangle.point2);
     let edge2 = testTriangle.point1.sub(testTriangle.point3);
