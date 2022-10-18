@@ -10,9 +10,6 @@ class Triangle {
         let edge1 = this.point1.sub(this.point2); // 边1
         let edge2 = this.point1.sub(this.point3); // 边2
         let edge3 = this.point2.sub(this.point3); // 边3
-        // if(edge1.add(edge2) !== edge3){
-        //     throw new Error('not a triangle');
-        // }
         
         // 判断是否共线
         if(edge1.cross(edge2).length() === 0 || edge1.cross(edge3).length() === 0 || edge2.cross(edge3).length() === 0){
@@ -48,13 +45,9 @@ class Triangle {
         let yMin = Math.min(this.point1.y, this.point2.y, this.point3.y);
         let zMin =  Math.min(this.point1.z, this.point2.z, this.point3.z);
         let pMin = new Vector3(xMin, yMin, zMin)
-        let s = pMax.sub(pMin);
-
-        let pLeftTop = new Vector3(xMin, yMin + s.y, zMin);
-        let pRightBottom = new Vector3(xMax + s.x, yMax, zMax)
 
         //Fix: 包围盒仅需要两个点就可表示, pLeftTop和pRightBottom计算多余
-        return [pMin, pLeftTop, pMax, pRightBottom]
+        return [pMin,  pMax]
     }
 
     // 获取点p对应的重心坐标
@@ -62,15 +55,22 @@ class Triangle {
         let s = (this.point1.sub(this.point2).cross(this.point1.sub(this.point3)));
         //Fix: 1. this.point3.sub(this.point1).cross(this.point3.sub(this.point2))重复计算两次，不必要的消耗，考虑缓存起来
         //Fix: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
-        let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).multiplyScalar(1 / (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).length());
+        let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).normalize();
         //Fix: s.dot(n)重复计算多次，考虑缓存起来
         let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / s.dot(n);
         let v = this.point2.sub(p).cross(this.point3.sub(this.point2)).dot(n) / s.dot(n);
         let w = (this.point3.sub(p)).cross(this.point1.sub(this.point3)).dot(n) / s.dot(n);
         let sum = u + v + w;
-        // if(sum > 1){
-        //     throw new Error('点不在三角形内')
-        // }
+        let testNum = (num) => {
+            if(num > 1 || num < 0) {
+                return true;
+            }else {
+                return false;
+            }
+        }
+        if(sum !== 1 || testNum(u) || testNum(v) || testNum(w)){
+            throw new Error('重心坐标不成立')
+        }
         //Fix: 没有判定u,v,w的有效性，u+v+w必须等于1，且u,v,w必须同时位于[0, 1]区间内
         return [u,v,w];
     }
