@@ -29,6 +29,8 @@ class Triangle {
         let s = this.point1.sub(this.point2).cross(this.point1.sub(this.point3)).length() / 2;
         return s;
     }
+
+    //Fix: 下面计算方式有误，没看到计算法相相关的代码，最终结果也不对
     // 判断点是否在三角形内
     // 点与顶点构成的向量的法向量，法向量在同一侧则在三角形内
     isContainPoint(point) {
@@ -47,6 +49,7 @@ class Triangle {
         return true;
     }
 
+    //Fix: 直接用叉乘来判定，减少计算量，使用重心坐标的做法计算量太大
     // 判定一个2D的点是否在2D三角形内（只考虑三角形的xy坐标和v的xy坐标）
     isContainPoint2D(point){
         let edge0 = this.point1.sub(this.point2);
@@ -89,7 +92,7 @@ class Triangle {
         //Fixed: 2. 下面的表达式是不是等于this.point3.sub(this.point1).cross(this.point3.sub(this.point2)).normalize() ?
         let n = (this.point3.sub(this.point1).cross(this.point3.sub(this.point2))).normalize();
         let sDot = s.dot(n);
-        //Fix: s.dot(n)重复计算多次，考虑缓存起来
+        //Fixed: s.dot(n)重复计算多次，考虑缓存起来
         let u = (this.point1.sub(p)).cross(this.point2.sub(this.point1)).dot(n) / sDot;
         let v = this.point2.sub(p).cross(this.point3.sub(this.point2)).dot(n) / sDot;
         let w = (this.point3.sub(p)).cross(this.point1.sub(this.point3)).dot(n) / sDot;
@@ -116,7 +119,8 @@ export function testTriangle() {
     console.log(testTriangle.area(), '三角形面积');
     
     console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
-    console.log(testTriangle.isContainPoint2D(new Vector3(10,0.5,0)), '测试点是否在三角形内部')
+    console.log(testTriangle.isContainPoint2D(new Vector3(2,0.5,0)), '测试点是否在三角形内部')
+    // console.log(testTriangle.isContainPoint(new Vector3(0.5,0.5, 0.1)), '测试点是否在三角形内部')
     console.log(testTriangle.getBoundingBox(), '包围盒');
     let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
     console.log(test)

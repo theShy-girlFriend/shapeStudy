@@ -65,7 +65,7 @@ export class Vector3 {
     length() {
         return Math.sqrt(this.sqrLength());
     }
-    //Fix: 浮点型数值和0的判定
+    //Fix: 浮点型数值和0的判定: 减0等于没减，化简
     // 是否为零向量
     isZero() {
         if(Math.abs(this.x - 0) < 1e-5 && Math.abs(this.y - 0) < 1e-5 && Math.abs(this.z - 0) < 1e-5) return true;
