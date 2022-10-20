@@ -84,6 +84,7 @@ export class Vector3 {
        let angle = Math.acos(this.dot(v) / (this.length() * v.length()));
        return angle; 
     }
+    // 向量长度的平方
     sqrLength() {
         return this.x * this.x + this.y * this.y +  this.z * this.z; 
     }

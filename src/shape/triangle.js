@@ -30,9 +30,21 @@ class Triangle {
         return s;
     }
     // 判断点是否在三角形内
-    // 点与顶点构成的向量，进行叉乘，同号则在同一方向
-    isContainPoint(vector) {
-
+    // 点与顶点构成的向量的法向量，法向量在同一侧则在三角形内
+    isContainPoint(point) {
+        let a = this.point1.sub(point);
+        let b = this.point2.sub(point);
+        let c = this.point3.sub(point);
+        let u = a.cross(b);
+        let v = b.cross(c);
+        let w = c.cross(a);
+        if(u.dot(v) < 0) {
+            return false;
+        }
+        if(u.dot(w) < 0) {
+            return false;
+        }
+        return true;
     }
 
     // 判定一个2D的点是否在2D三角形内（只考虑三角形的xy坐标和v的xy坐标）
@@ -90,7 +102,11 @@ export function testTriangle() {
     console.log(testTriangle.area(), '三角形面积');
     
     console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
+    console.log(testTriangle.isContainPoint(new Vector3(10,0.5,0)), '测试点是否在三角形内部')
     console.log(testTriangle.getBoundingBox(), '包围盒');
     let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
     console.log(test)
 }
+
+
+testTriangle();
