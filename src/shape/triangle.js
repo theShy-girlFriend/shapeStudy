@@ -126,5 +126,5 @@ export function testTriangle() {
     console.log(test)
 }
 
-
+//Fix: 不要在类文件里面调用测试代码，容易造成log混乱
 testTriangle();
