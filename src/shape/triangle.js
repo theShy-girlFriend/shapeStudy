@@ -48,8 +48,22 @@ class Triangle {
     }
 
     // 判定一个2D的点是否在2D三角形内（只考虑三角形的xy坐标和v的xy坐标）
-    isContainPoint2D(v){
-
+    isContainPoint2D(point){
+        let edge0 = this.point1.sub(this.point2);
+        let edge1 = this.point1.sub(this.point3);
+        let edge2 = this.point1.sub(point);
+        let dot00 = edge0.dot(edge0);
+        let dot01 = edge0.dot(edge1);
+        let dot11 = edge1.dot(edge1);
+        let dot12 = edge1.dot(edge2);
+        let dot02 = edge2.dot(edge0);
+        let u = (dot02 * dot11 -dot12 * dot01) / (dot00 * dot11 - dot01 * dot01)
+        let v= (dot12 * dot00 - dot02 * dot01) / (dot11 * dot00 - dot01 * dot01);
+        if(u < 0 || v < 0 || u + v > 1){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     // 三角形包围盒
@@ -102,7 +116,7 @@ export function testTriangle() {
     console.log(testTriangle.area(), '三角形面积');
     
     console.log(testTriangle.getBarycentric(new Vector3(1.5,0.5,0)), '重心坐标');
-    console.log(testTriangle.isContainPoint(new Vector3(10,0.5,0)), '测试点是否在三角形内部')
+    console.log(testTriangle.isContainPoint2D(new Vector3(10,0.5,0)), '测试点是否在三角形内部')
     console.log(testTriangle.getBoundingBox(), '包围盒');
     let test = new Triangle(new Vector3(0,0,1), new Vector3(0,0,2), new Vector3(0,0,3))
     console.log(test)
