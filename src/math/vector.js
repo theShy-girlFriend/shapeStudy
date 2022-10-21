@@ -54,6 +54,11 @@ export class Vector3 {
         let z = this.x * v.y - this.y * v.x;
         return new Vector3(x, y, z)
     }
+    // 2d向量叉乘
+    cross2D(v) {
+        let result = this.x * v.y - this.y * v.x;
+        return result
+    }
     // 向量取反
     negate() {
         let x = -this.x;

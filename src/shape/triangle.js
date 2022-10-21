@@ -52,20 +52,19 @@ class Triangle {
     //Fix: 直接用叉乘来判定，减少计算量，使用重心坐标的做法计算量太大
     // 判定一个2D的点是否在2D三角形内（只考虑三角形的xy坐标和v的xy坐标）
     isContainPoint2D(point){
-        let edge0 = this.point1.sub(this.point2);
-        let edge1 = this.point1.sub(this.point3);
-        let edge2 = this.point1.sub(point);
-        let dot00 = edge0.dot(edge0);
-        let dot01 = edge0.dot(edge1);
-        let dot11 = edge1.dot(edge1);
-        let dot12 = edge1.dot(edge2);
-        let dot02 = edge2.dot(edge0);
-        let u = (dot02 * dot11 -dot12 * dot01) / (dot00 * dot11 - dot01 * dot01)
-        let v= (dot12 * dot00 - dot02 * dot01) / (dot11 * dot00 - dot01 * dot01);
-        if(u < 0 || v < 0 || u + v > 1){
-            return false;
-        }else {
+        let edge1 = point.sub(this.point1);
+        let edge2 = point.sub(this.point2);
+        let edge3 = point.sub(this.point3);
+        let u = edge1.cross2D(edge2);
+        let v = edge2.cross2D(edge3);
+        let w = edge3.cross2D(edge1);
+        console.log(u, v, w)
+        if(u < 0 && v < 0 && w < 0){
             return true;
+        }else if(u > 0 && v > 0 && w > 0){
+            return true;
+        }else {
+            return false;
         }
     }
 
@@ -127,4 +126,3 @@ export function testTriangle() {
 }
 
 //Fix: 不要在类文件里面调用测试代码，容易造成log混乱
-testTriangle();
