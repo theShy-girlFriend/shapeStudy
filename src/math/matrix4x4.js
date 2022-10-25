@@ -12,6 +12,23 @@ class Matrix4x4 {
             [1, 1, 1, 1]
         ]
     }
+
+    // 矩阵与向量相乘
+    mulV3(v3) {
+        let v3Arr = [v3.x, v3.y, v3.z, 0]
+        let result = []
+        this.val.forEach(element => {
+            let valArray = []
+            let sum = 0;
+            element.forEach((val, index) =>{
+                sum += val * v3Arr[index];
+            })
+            valArray.push(sum)
+            result.push(valArray)
+        })
+        return result;
+    }
+
     // 与标量相乘
     mulS(s) {
        let result = []
@@ -31,4 +48,5 @@ export function testMatrix4x4() {
     let test = new Matrix4x4([[1,2,2,3]]);
     console.log(Matrix4x4.identity())
     console.log(test.mulS(2))
+    console.log(test.mulV3({x: 2, y: 3, z: 4}))
 }
