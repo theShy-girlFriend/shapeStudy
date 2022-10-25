@@ -5,17 +5,17 @@ class Matrix4x4 {
     }
     // 单位矩阵
     static identity() {
-        return [
-            [1, 1, 1, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1],
-            [1, 1, 1, 1]
-        ]
+        return new Matrix4x4([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ])
     }
     // 矩阵相乘
-    mul(Matrix4x4) {
+    mul(M4) {
         let result = []
-        Matrix4x4.val.forEach((element,index) =>{
+        M4.val.forEach((element,index) =>{
             let valArray = []
             let sum = 0;
             element.forEach((val, valIndex) =>{
@@ -54,6 +54,11 @@ class Matrix4x4 {
             result.push(valArray)
         });
         return result;
+    }
+
+    // 转置矩阵
+    transpose() {
+
     }
 }
 
