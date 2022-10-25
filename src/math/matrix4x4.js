@@ -24,7 +24,7 @@ class Matrix4x4 {
             valArray.push(sum)
             result.push(valArray)      
         })
-        return result;
+        return new Matrix4x4(result);
     }
 
     // 矩阵与向量相乘
@@ -40,7 +40,7 @@ class Matrix4x4 {
             valArray.push(sum)
             result.push(valArray)
         })
-        return result;
+        return new Matrix4x4(result);
     }
 
     // 与标量相乘
@@ -53,12 +53,21 @@ class Matrix4x4 {
             })
             result.push(valArray)
         });
-        return result;
+        return new Matrix4x4(result);
     }
 
     // 转置矩阵
     transpose() {
-
+        let result = [];
+        let length = this.val[0].length
+        for(let i = 0; i < length; i++){
+            let valArray = [];
+            this.val.forEach(item =>{
+                valArray.push(item[i])
+            })
+            result.push(valArray)
+        }   
+         return new Matrix4x4(result);
     }
 }
 
@@ -68,5 +77,6 @@ export function testMatrix4x4() {
     console.log(Matrix4x4.identity())
     console.log(test.mulS(2))
     console.log(test.mulV3({x: 2, y: 3, z: 4}))
-    console.log(test.mul([[2], [5], [5], [3]]))
+    console.log(test.mul(new Matrix4x4([[2], [5], [5], [3]])))
+    console.log(test.transpose())
 }
