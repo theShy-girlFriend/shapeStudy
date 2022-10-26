@@ -15,14 +15,17 @@ class Matrix4x4 {
     // 矩阵相乘
     mul(M4) {
         let result = []
-        M4.val.forEach((element,index) =>{
-            let valArray = []
-            let sum = 0;
-            element.forEach((val, valIndex) =>{
-                sum+= val * this.val[valIndex][index];
-            })
-            valArray.push(sum)
-            result.push(valArray)      
+        let length = M4.val[0].length;
+        M4.val.forEach((element, index) => {
+            let valArray = []  
+            for(let i = 0; i < length; i++){
+                let sum = 0;
+                element.forEach((val,valIndex) =>{
+                    sum+= val * this.val[valIndex][i]      
+                })
+                valArray.push(sum)
+            }
+            result.push(valArray) 
         })
         return new Matrix4x4(result);
     }
@@ -73,10 +76,10 @@ class Matrix4x4 {
 
 // 矩阵测试代码
 export function testMatrix4x4() {
-    let test = new Matrix4x4([[1,2,2,3]]);
+    let test = new Matrix4x4([[-3, 5], [0, 0.5]]);
     console.log(Matrix4x4.identity())
     console.log(test.mulS(2))
     console.log(test.mulV3({x: 2, y: 3, z: 4}))
-    console.log(test.mul(new Matrix4x4([[2], [5], [5], [3]])))
+    console.log(test.mul(new Matrix4x4([[-7, 4], [2, 6]])))
     console.log(test.transpose())
 }
