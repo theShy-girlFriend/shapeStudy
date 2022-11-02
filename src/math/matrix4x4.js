@@ -1,3 +1,5 @@
+import { Vector3 } from "../math/vector.js";
+
 // 矩阵
 class Matrix4x4 {
     constructor(arr) {
@@ -35,15 +37,14 @@ class Matrix4x4 {
         let v3Arr = [v3.x, v3.y, v3.z, 0]
         let result = []
         this.val.forEach(element => {
-            let valArray = []
             let sum = 0;
             element.forEach((val, index) =>{
                 sum += val * v3Arr[index];
             })
-            valArray.push(sum)
-            result.push(valArray)
+            result.push(sum)
         })
-        return new Matrix4x4(result);
+        console.log(result, 233)
+        return new Vector3(result[0] ? result[0] : 0,  result[1]? result[1] : 0,  result[2]? result[2] : 0);
     }
 
     // 与标量相乘
@@ -79,7 +80,7 @@ export function testMatrix4x4() {
     let test = new Matrix4x4([[-3, 5], [0, 0.5]]);
     console.log(Matrix4x4.identity())
     console.log(test.mulS(2))
-    console.log(test.mulV3({x: 2, y: 3, z: 4}))
-    console.log(test.mul(new Matrix4x4([[-7, 4], [2, 6]])))
+    console.log(test.mulV3(new Vector3(2, 3, 4)))
+    console.log(test.mul(new Matrix4x4([[-7, 4], [2, 6]])), '矩阵乘法')
     console.log(test.transpose())
 }
