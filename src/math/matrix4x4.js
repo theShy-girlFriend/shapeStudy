@@ -43,7 +43,6 @@ class Matrix4x4 {
             })
             result.push(sum)
         })
-        console.log(result, 233)
         return new Vector3(result[0] ? result[0] : 0,  result[1]? result[1] : 0,  result[2]? result[2] : 0);
     }
 
@@ -57,6 +56,18 @@ class Matrix4x4 {
             })
             result.push(valArray)
         });
+        return new Matrix4x4(result);
+    }
+
+    // 矩阵平移
+    translate(v3) {
+        let result = [];
+        let translateData = [v3.x, v3.y, v3.z, 0];
+        this.val.forEach((element,index) => {
+            let sum = [].concat(element);
+            sum[index] = sum[index] + translateData[index];
+            result.push(sum)
+        })
         return new Matrix4x4(result);
     }
 
@@ -78,9 +89,11 @@ class Matrix4x4 {
 // 矩阵测试代码
 export function testMatrix4x4() {
     let test = new Matrix4x4([[-3, 5], [0, 0.5]]);
+    let test1 = new Matrix4x4([[3], [-1], [4]])
     console.log(Matrix4x4.identity())
     console.log(test.mulS(2))
     console.log(test.mulV3(new Vector3(2, 3, 4)))
     console.log(test.mul(new Matrix4x4([[-7, 4], [2, 6]])), '矩阵乘法')
+    console.log(test1.mul(new Matrix4x4([[-2, 0, 3], [0, 7, -4], [3, -6, 2]])), '乘法2')
     console.log(test.transpose())
 }
