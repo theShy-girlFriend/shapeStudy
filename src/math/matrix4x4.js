@@ -71,6 +71,18 @@ class Matrix4x4 {
         return new Matrix4x4(result);
     }
 
+    // 矩阵缩放--缩放指数相同
+    scale(scale) {
+        let result = [];
+        let translateData = [scale, scale, scale, scale];
+        this.val.forEach((element,index) => {
+            let scaleArray = [].concat(element);
+            scaleArray[index] = scaleArray[index] * scaleArray[index];
+            result.push(scaleArray)
+        })
+        return new Matrix4x4(result);
+    }
+
     // 转置矩阵
     transpose() {
         let result = [];
