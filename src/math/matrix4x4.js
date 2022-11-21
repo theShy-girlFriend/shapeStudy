@@ -74,11 +74,29 @@ class Matrix4x4 {
     // 矩阵缩放--缩放指数相同
     scale(scale) {
         let result = [];
-        let translateData = [scale, scale, scale, scale];
         this.val.forEach((element,index) => {
             let scaleArray = [].concat(element);
-            scaleArray[index] = scaleArray[index] * scaleArray[index];
+            scaleArray[index] = scaleArray[index] * scale;
             result.push(scaleArray)
+        })
+        return new Matrix4x4(result);
+    }
+    // 实现矩阵缩放(三个维度缩放不同)
+    scaleV3(scale) {
+        let result = [];
+        let scaleArray = [scale.x, scale.y, scale.z];
+        this.val.forEach((element, index) =>{
+            let resultArr = [];
+            element.forEach((val,valIndex) =>{
+                let scaleVal = 0;
+                if(index === valIndex){
+                    scaleVal = 1 + (val - 1) * scaleArray[index] * scaleArray[valIndex];
+                }else {
+                    scaleVal = (val - 1) * scaleArray[index] * scaleArray[valIndex];
+                }
+                resultArr.push(scaleVal);
+            })
+            result.push(resultArr);
         })
         return new Matrix4x4(result);
     }
