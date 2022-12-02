@@ -61,44 +61,50 @@ class Matrix4x4 {
 
     // 矩阵平移
     translate(v3) {
-        let result = [];
-        let translateData = [v3.x, v3.y, v3.z, 0];
-        this.val.forEach((element,index) => {
-            let sum = [].concat(element);
-            sum[index] = sum[index] + translateData[index];
-            result.push(sum)
-        })
-        return new Matrix4x4(result);
+        return new Matrix4x4([
+            [1, 0, 0, v3.x],
+            [0, 1, 0, v3.y],
+            [0, 0, 1, v3.z],
+            [0, 0, 0, 1]
+        ]);
     }
 
     // 矩阵缩放--缩放指数相同
     scale(scale) {
-        let result = [];
-        this.val.forEach((element,index) => {
-            let scaleArray = [].concat(element);
-            scaleArray[index] = scaleArray[index] * scale;
-            result.push(scaleArray)
-        })
-        return new Matrix4x4(result);
+        return new Matrix4x4([
+            [scale, 0, 0, 0],
+            [0, scale, 0, 0],
+            [0, 0, scale, 0],
+            [0, 0, 0, 1]
+        ])
     }
     // 实现矩阵缩放(三个维度缩放不同)
     scaleV3(scale) {
+        return new Matrix4x4([
+            [scale.x, 0, 0, 0],
+            [0, scale.y, 0, 0],
+            [0, 0, scale.z, 0],
+            [0, 0, 0, 1]
+        ])
+    }
+
+    //  绕任意轴旋转
+    rotate(v3, radians) {
         let result = [];
-        let scaleArray = [scale.x, scale.y, scale.z];
-        this.val.forEach((element, index) =>{
+        let v3Arr = [v3.x, v3.y, v3.z];
+        v3Arr.forEach((item,itemIndex) => {
             let resultArr = [];
-            element.forEach((val,valIndex) =>{
-                let scaleVal = 0;
-                if(index === valIndex){
-                    scaleVal = 1 + (val - 1) * scaleArray[index] * scaleArray[valIndex];
-                }else {
-                    scaleVal = (val - 1) * scaleArray[index] * scaleArray[valIndex];
+            v3Arr.forEach((val,valIndex) =>{
+                let rotateVal = item * val * (1 - Math.cos(radians));
+                if(itemIndex === valIndex) {
+                    rotateVal = rotateVal + Math.cos(radians);
+                }else if(valIndex + 1 < 3 || valIndex === 0) {
+                    rotateVal = rotateVal + Math.sin(radians);
                 }
-                resultArr.push(scaleVal);
             })
             result.push(resultArr);
         })
-        return new Matrix4x4(result);
+
     }
 
     // 转置矩阵
