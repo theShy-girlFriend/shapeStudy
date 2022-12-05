@@ -90,20 +90,14 @@ class Matrix4x4 {
 
     //  绕任意轴旋转
     rotate(v3, radians) {
-        let result = [];
-        let v3Arr = [v3.x, v3.y, v3.z];
-        v3Arr.forEach((item,itemIndex) => {
-            let resultArr = [];
-            v3Arr.forEach((val,valIndex) =>{
-                let rotateVal = item * val * (1 - Math.cos(radians));
-                if(itemIndex === valIndex) {
-                    rotateVal = rotateVal + Math.cos(radians);
-                }else if(valIndex + 1 < 3 || valIndex === 0) {
-                    rotateVal = rotateVal + Math.sin(radians);
-                }
-            })
-            result.push(resultArr);
-        })
+        let val = 1 - Math.cos(radians);
+        let cosRad = Math.cos(radians);
+        let sinRad = Math.sin(radians);
+        return new Matrix4x4([
+            [v3.x * v3.x * val + cosRad , v3.x * v3.y,v3.x * v3.y * val + v3.z * sinRad, v3.x * v3.z * val - v3.y * sinRad, 0],
+            [v3.x * v3.y * val - v3.z * sinRad, v3.y * v3.y * val + cosRad, v3.y * v3.z * val + v3.x * sinRad, 0],
+            [v3.x * v3.z * val + v3.y * sinRad, v3.y * v3.z * val - v3.x * cosRad, v3.z * v3.z * val + cosRad, 0],
+        ])
 
     }
 
