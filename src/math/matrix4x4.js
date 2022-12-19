@@ -16,8 +16,12 @@ class Matrix4x4 {
     }
     // 矩阵相乘
     mul(M4) {
-        let result = []
+        let valLength = this.val.length;
         let length = M4.val[0].length;
+        let result = []
+        if(valLength !== length) {
+            return console.error("两个矩阵无法相乘");
+        }
         M4.val.forEach((element, index) => {
             let valArray = []  
             for(let i = 0; i < length; i++){
@@ -97,6 +101,7 @@ class Matrix4x4 {
             [v3.x * v3.x * val + cosRad , v3.x * v3.y,v3.x * v3.y * val + v3.z * sinRad, v3.x * v3.z * val - v3.y * sinRad, 0],
             [v3.x * v3.y * val - v3.z * sinRad, v3.y * v3.y * val + cosRad, v3.y * v3.z * val + v3.x * sinRad, 0],
             [v3.x * v3.z * val + v3.y * sinRad, v3.y * v3.z * val - v3.x * cosRad, v3.z * v3.z * val + cosRad, 0],
+            [0, 0, 0, 0]
         ])
 
     }
@@ -114,16 +119,26 @@ class Matrix4x4 {
         }   
          return new Matrix4x4(result);
     }
+    // 矩阵的行列式
+    det() {
+
+    }
+    // 逆矩阵
+    inverse() {
+        if(this.val.length !== this.val[0].length){
+            return this.val;
+        }
+    }
 }
 
 // 矩阵测试代码
 export function testMatrix4x4() {
-    let test = new Matrix4x4([[-3, 5], [0, 0.5]]);
-    let test1 = new Matrix4x4([[3], [-1], [4]])
-    console.log(Matrix4x4.identity())
-    console.log(test.mulS(2))
-    console.log(test.mulV3(new Vector3(2, 3, 4)))
-    console.log(test.mul(new Matrix4x4([[-7, 4], [2, 6]])), '矩阵乘法')
+    let test = new Matrix4x4([[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7]])
+    let test1 = new Matrix4x4([[3], [-1], [4], [3]])
+    console.log(Matrix4x4.identity(), '单位矩阵')
+    console.log(test.mulS(2), '矩阵与标量相乘')
+    console.log(test.mulV3(new Vector3(2, 3, 4)), '矩阵与向量相乘')
+    console.log(test.mul(new Matrix4x4([[1, 2, 3, 4]])), '矩阵乘法')
     console.log(test1.mul(new Matrix4x4([[-2, 0, 3], [0, 7, -4], [3, -6, 2]])), '乘法2')
     console.log(test.transpose())
 }

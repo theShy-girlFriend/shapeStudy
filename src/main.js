@@ -3,6 +3,7 @@ import { Color } from "./comm/color.js";
 import { Graphics, ClearFlag } from "./core/graphics.js"
 import { Vector3 } from "./math/vector.js";
 import { testTriangle } from "./shape/triangle.js";
+import { testMatrix4x4 } from "./math/matrix4x4.js";
 
 let fps_interval, starttime, now, last, elapsed, dt;
 let canvas, context, graphics;
@@ -16,7 +17,7 @@ window.onload = (e) => {
     graphics = new Graphics(context);
 
     init({fps: 120});
-    testTriangle();
+    testMatrix4x4();
 }
 
 function init(args) {
