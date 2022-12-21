@@ -3,6 +3,15 @@ import { Vector3 } from "../math/vector.js";
 // 矩阵
 class Matrix4x4 {
     constructor(arr) {
+        if(arr.length !== 4) {
+            return console.error("矩阵格式不符合规范");
+        }else {
+            arr.forEach(item =>{
+                if(item.length !== 4) {
+                    return console.error("矩阵格式不符合规范");
+                }
+            })
+        }
         this.val = arr;
     }
     // 单位矩阵
@@ -22,12 +31,12 @@ class Matrix4x4 {
         if(valLength !== length) {
             return console.error("两个矩阵无法相乘");
         }
-        M4.val.forEach((element, index) => {
+        this.val.forEach((element) => {
             let valArray = []  
             for(let i = 0; i < length; i++){
                 let sum = 0;
                 element.forEach((val,valIndex) =>{
-                    sum+= val * this.val[valIndex][i]      
+                    sum+= val * M4.val[valIndex][i]      
                 })
                 valArray.push(sum)
             }
@@ -138,7 +147,7 @@ export function testMatrix4x4() {
     console.log(Matrix4x4.identity(), '单位矩阵')
     console.log(test.mulS(2), '矩阵与标量相乘')
     console.log(test.mulV3(new Vector3(2, 3, 4)), '矩阵与向量相乘')
-    console.log(test.mul(new Matrix4x4([[1, 2, 3, 4]])), '矩阵乘法')
+    console.log(test.mul(new Matrix4x4([[1, 1, 2, 2], [2, 3, 4, 5], [3, 4, 5, 6], [1, 5, 6,7]])), '矩阵乘法')
     console.log(test1.mul(new Matrix4x4([[-2, 0, 3], [0, 7, -4], [3, -6, 2]])), '乘法2')
     console.log(test.transpose())
 }
