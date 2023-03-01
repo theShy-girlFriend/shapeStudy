@@ -1,3 +1,11 @@
+// 2维向量
+class Vector2 {
+    constructor(x, y){
+        this.x = x || 0;
+        this.y = y || 0;
+    }
+}
+// 3维向量
 export class Vector3 {
 
     constructor(x,y,z){
@@ -95,7 +103,16 @@ export class Vector3 {
     }
 
 }
+// 4维向量
+class Vector4 {
+    constructor(x,y,z, w){
+        this.x = x || 0; // x坐标
+        this.y = y || 0; // y坐标
+        this.z = z || 0; // z坐标
+        this.w = w || 0; // w坐标
+    }
 
+}
 //Fixed: 测试代码单独放在一个函数中，不要直接放在文件中
 function testV3() {
     let testV3 = new Vector3(0, 2, 0);
