@@ -1,7 +1,7 @@
 import { Vector3 } from "../math/vector.js";
 
 // 三角形
-class Triangle {
+export class Triangle {
     constructor(point1, point2, point3){
         this.point1 = point1; // 顶点1
         this.point2 = point2; // 顶点2
@@ -58,7 +58,6 @@ class Triangle {
         let u = edge1.cross2D(edge2);
         let v = edge2.cross2D(edge3);
         let w = edge3.cross2D(edge1);
-        console.log(u, v, w)
         if(u < 0 && v < 0 && w < 0){
             return true;
         }else if(u > 0 && v > 0 && w > 0){

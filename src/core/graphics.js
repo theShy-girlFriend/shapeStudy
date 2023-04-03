@@ -125,8 +125,28 @@ export class Graphics {
             }
         }
     }
-
-    drawTriangles(){
+    // 通过线画三角形
+    drawTrianglesByLine(vertices,vertexIndics){
+        vertices.forEach(element => {
+            console.log(element, 'element')
+            this.setPixel(element.uv.x, element.uv.y, element.color)
+        });
+        this.bresenhamLine(vertexIndics.p1.uv, vertexIndics.p2.uv, vertexIndics.p1.color)
+        this.bresenhamLine(vertexIndics.p1.uv, vertexIndics.p3.uv, vertexIndics.p1.color)
+        this.bresenhamLine(vertexIndics.p2.uv, vertexIndics.p3.uv, vertexIndics.p1.color)
+    }
+    drawTriangles(triangle){
+        let box = triangle.getBoundingBox();
+        let minVector = box[0];
+        let maxVector = box[1];
+        for(let x = minVector.x; x < maxVector.x; x++) {
+            for(let y = minVector.y; y < maxVector.y; y++) {
+                if(triangle.isContainPoint2D(new Vector3(x,y,0))){
+                    this.setPixel(x, y, Color.red);
+                }
+            }
+        }
+    
     }
 
     getFrameData(x, y) {
