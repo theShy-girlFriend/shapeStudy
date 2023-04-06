@@ -57,12 +57,11 @@ function render(dt) {
     // graphics.bresenhamLine(center, p1, Color.black);
     // graphics.bresenhamLine(new Vector3(0, 0, 0), new Vector3(100, 50, 0) , Color.black);
     // graphics.DDALine(p1, p2, Color.black);
-    let tp2 = new Vertex(new Vector4(200, 200, 0, 0 ), new Vector2(150,150), Color.red);
-    let tp1 = new Vertex(new Vector4(200, 200, 0, 0 ), new Vector2(410,300), Color.red);
-    let tp3 = new Vertex(new Vector4(200, 200, 0, 0 ), new Vector2(100,100), Color.red);
-    let list = [tp1, tp2, tp3]
-    let triangle = new Triangle(new Vector3(150,150, 0), new Vector3(410,300, 0), new Vector3(100,100, 0) )
-    graphics.drawTriangles(triangle);
+    let tp0 = new Vertex(new Vector4(150, 150, 0, 0 ), new Vector2(0,0), Color.red);
+    let tp1 = new Vertex(new Vector4(410, 300, 0, 0 ), new Vector2(0,1), Color.red);
+    let tp2 = new Vertex(new Vector4(100, 100, 0, 0 ), new Vector2(1,0), Color.red);
+    let list = [tp0, tp1, tp2]
+    graphics.drawTriangles(list, {p0: tp0, p1: tp1, p2: tp2});
 
     ///////////////////////在这里写绘制图形的逻辑-end////////////////////////
     graphics.submitFrameBuffer();

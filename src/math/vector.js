@@ -1,8 +1,20 @@
 // 2维向量
-class Vector2 {
+export class Vector2 {
     constructor(x, y){
         this.x = x || 0;
         this.y = y || 0;
+    }
+     // 向量加法
+     add(v) {
+        let x = this.x + v.x;
+        let y = this.y + v.y;
+        return new Vector2(x, y)
+    }
+    // 向量减法
+    sub(v) {
+        let x = this.x - v.x;
+        let y = this.y - v.y;
+        return new Vector3(x, y)
     }
 }
 // 3维向量
@@ -104,7 +116,7 @@ export class Vector3 {
 
 }
 // 4维向量
-class Vector4 {
+export class Vector4 {
     constructor(x,y,z, w){
         this.x = x || 0; // x坐标
         this.y = y || 0; // y坐标
@@ -112,6 +124,14 @@ class Vector4 {
         this.w = w || 0; // w坐标
     }
 
+}
+// 顶点信息类
+export class Vertex {
+    constructor(position, uv, color) {
+        this.position = position;
+        this.uv = uv;
+        this.color = color;
+    }
 }
 //Fixed: 测试代码单独放在一个函数中，不要直接放在文件中
 function testV3() {

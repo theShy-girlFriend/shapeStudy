@@ -1,5 +1,6 @@
 import { Color } from "../comm/color.js";
 import { Vector3 } from "../math/vector.js";
+import { Triangle } from "../shape/triangle.js";
 
 export const ClearFlag = {
     Background: 0b1,
@@ -125,17 +126,12 @@ export class Graphics {
             }
         }
     }
-    // 通过线画三角形
-    drawTrianglesByLine(vertices,vertexIndics){
-        vertices.forEach(element => {
-            console.log(element, 'element')
-            this.setPixel(element.uv.x, element.uv.y, element.color)
-        });
-        this.bresenhamLine(vertexIndics.p1.uv, vertexIndics.p2.uv, vertexIndics.p1.color)
-        this.bresenhamLine(vertexIndics.p1.uv, vertexIndics.p3.uv, vertexIndics.p1.color)
-        this.bresenhamLine(vertexIndics.p2.uv, vertexIndics.p3.uv, vertexIndics.p1.color)
-    }
-    drawTriangles(triangle){
+    // 画三角形
+    drawTriangles(vertices,vertexIndics){
+        let ponit1 = vertices[0].position;
+        let ponit2 = vertices[1].position;
+        let ponit3 = vertices[2].position;
+        let triangle = new Triangle(new Vector3(ponit1.x, ponit1.y, ponit1.z), new Vector3(ponit2.x,ponit2.y,ponit2.z), new Vector3(ponit3.x, ponit3.y, ponit3.z));
         let box = triangle.getBoundingBox();
         let minVector = box[0];
         let maxVector = box[1];
