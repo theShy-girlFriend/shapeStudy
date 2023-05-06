@@ -37,7 +37,7 @@ function frame_loop(){
         return;
     }
 
-    last = now - elapsed % fps_interval + 100000;
+    last = now - elapsed % fps_interval + 100;
     render(elapsed / 1000.0)
 }
 
@@ -45,13 +45,19 @@ function render(dt) {
     graphics.clear(ClearFlag.Background, "white");
     ///////////////////////在这里写绘制图形的逻辑-begin////////////////////////
     
-    degree += dt * 2000;
+    degree -= dt * 200;
     let r = degree * Math.PI / 180.0;
     let s = Math.sin(r);
     let c = Math.cos(r);
-
+    console.log(r, 11111);
     let center = new Vector3(400, 300);
     let p1 = center.add(new Vector3(c * radius, s * radius, 0));
+    // if(r > 1) {
+    //     r = -(r - 1)
+    // }
+    // if(r < -1) {
+    //     degree = 0; 
+    // }
 
     graphics.DDALine(center, p1, Color.black);
     let rotateMatrix = Matrix4x4.rotate(new Vector3(1,0,0), r);
