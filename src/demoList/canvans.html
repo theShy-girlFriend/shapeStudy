@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="webCanvas" width="800" height="800"></canvas>
+</body>
+</html>
+<script>
+    // 获取画布
+    const canvasDom = document.getElementById('webCanvas');
+
+    // 获取绘图上下文
+    const canvasContent = canvasDom.getContext('2d');
+    
+    canvasContent.fillStyle = 'green';
+    canvasContent.fillRect(10, 10, 100, 100)
+</script>
+
