@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="webCanvas" width="800" height="800"></canvas>
+
+</body>
+</html>
+<script>
+    // 获取画布
+    const ctx = document.getElementById('webCanvas');
+
+    // 获取绘图上下文
+    const gl = ctx.getContext('webgl');
+    
+    // 清空canvas颜色并设置 clearColor和clear要搭配使用
+    
+    gl.clearColor(1.0, 0.0, 0.0, 1.0);
+    
+    // 清空颜色缓冲区
+    gl.clear(gl.COLOR_BUFFER_BIT);
+</script>
