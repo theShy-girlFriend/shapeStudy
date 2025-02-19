@@ -47,10 +47,13 @@
         
         // 着色器 --创建着色器源码
         // 顶点着色器
+        // attribute 存储限定符 vec4 变量类型 aPosition 变量名
         const VERTEX_SHADER_SOURCE = `
+        // 只能在定点着色器中使用
+        attribute vec4 aPosition;
         void main() {
             // 要绘制的点的坐标---x,y,z,w齐次坐标---(x/w, y/w, z/w)
-            gl_Position = vec4(0.5, 0.5, 0.0, 1.0);
+            gl_Position = aPosition;
             // 点的大小
             gl_PointSize = 10.0;
         }
@@ -64,7 +67,12 @@
         }
         `;
         
-        initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+        const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+        
+        // 获取attribute变量 program: 程序对象 name: 变量地址
+        const aPosition = gl.getAttribLocation(program, 'aPosition')
+        // 设置变量值
+        gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0)
         // 执行绘制 --- 要绘制的图形，从哪里开始，使用几个顶点
         gl.drawArrays(gl.POINTS, 0, 1);
     </script>
