@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../core/initProgram.js" ></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    #webCanvas {
+        background: gray;
+        margin: 50px auto 0;
+        display: block;
+    }
+</style>
+<body>
+    <canvas id="webCanvas" width="800" height="800"></canvas>
+
+    <script>
+        // 获取画布
+        const ctx = document.getElementById('webCanvas');
+
+        // 获取绘图上下文
+        const gl = ctx.getContext('webgl');
+        
+        // 着色器 --创建着色器源码
+        // 顶点着色器
+        // attribute 存储限定符 vec4 变量类型 aPosition 变量名
+        const VERTEX_SHADER_SOURCE = `
+        // 只能在定点着色器中使用
+        attribute vec4 aPosition;
+        void main() {
+            // 要绘制的点的坐标---x,y,z,w齐次坐标---(x/w, y/w, z/w)
+            gl_Position = aPosition;
+            // 点的大小
+            gl_PointSize = 10.0;
+        }
+        `;
+
+        // 片元着色器
+        const FRAGMENT_SHADER_SOURCE = `
+        void main() {
+            // r,g,b,a
+            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        }
+        `;
+        
+        const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+        
+        // 获取attribute变量 program: 程序对象 name: 变量地址
+        const aPosition = gl.getAttribLocation(program, 'aPosition')
+        // 设置变量值
+        gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0)
+        // 执行绘制 --- 要绘制的图形，从哪里开始，使用几个顶点
+        gl.drawArrays(gl.POINTS, 0, 1);
+
+        // 画布添加点击事件
+        ctx.onclick = (event) => {
+            const x = event.clientX;
+            const y = event.clientY;
+            const domPosition = event.target.getBoundingClientRect();
+            const domx = x - domPosition.left;
+            const domy = y - domPosition.top;
+            const halfWidth = domPosition.width / 2;
+            const halfHeight = domPosition.height / 2;
+            const clickX = (domx - halfWidth) / halfWidth;
+            const clickY = (halfHeight - domy) / halfHeight;
+            gl.vertexAttrib2f(aPosition, clickX, clickY);
+            gl.drawArrays(gl.POINTS, 0, 1);
+        }
+    </script>
+</body>
+</html>
