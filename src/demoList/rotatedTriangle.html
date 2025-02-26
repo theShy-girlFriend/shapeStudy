@@ -34,11 +34,9 @@
         // 只能在定点着色器中使用
         attribute vec4 aPosition;
         uniform float uCosB, uSinB;
+        uniform mat4 u_xformMatrix; // 旋转矩阵
         void main() {
-            gl_Position.x = aPosition.x * uCosB - aPosition.y * uSinB;
-            gl_Position.y = aPosition.x * uSinB + aPosition.y * uCosB;
-            gl_Position.z = aPosition.z;
-            gl_Position.w = 1.0;
+            gl_Position = u_xformMatrix * aPosition;
         }
         `;
 
@@ -60,16 +58,22 @@
         const cosB = Math.cos(radian);
         const sinB = Math.sin(radian);
 
+        // webgl矩阵 
+        let xformMatrix = new Float32Array([
+            cosB, sinB, 0.0, 0.0,
+            -sinB, cosB, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        ])
+
         const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
         
         // 获取attribute变量 program: 程序对象 name: 变量地址
         const aPosition = gl.getAttribLocation(program, 'aPosition')
-        const uCosB = gl.getUniformLocation(program, 'uCosB');
-        const uSinB = gl.getUniformLocation(program, 'uSinB');
+        const u_xformMatrix = gl.getUniformLocation(program, 'u_xformMatrix');
         // 设置变量值
         gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0)
-        gl.uniform1f(uCosB,cosB)
-        gl.uniform1f(uSinB,sinB)
+        gl.uniformMatrix4fv(u_xformMatrix,false, xformMatrix)
        
         const points = new Float32Array([
             -0.5, -0.5,
