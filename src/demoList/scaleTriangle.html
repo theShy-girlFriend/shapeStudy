@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../core/initProgram.js" ></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    #webCanvas {
+        background: gray;
+        margin: 50px auto 0;
+        display: block;
+    }
+</style>
+<body>
+    <canvas id="webCanvas" width="800" height="800"></canvas>
+
+    <script>
+        // 获取画布
+        const ctx = document.getElementById('webCanvas');
+
+        // 获取绘图上下文
+        const gl = ctx.getContext('webgl');
+        
+        // 着色器 --创建着色器源码
+        // 顶点着色器
+        // attribute 存储限定符 vec4 变量类型 aPosition 变量名
+        const VERTEX_SHADER_SOURCE = `
+        // 只能在定点着色器中使用
+        attribute vec4 aPosition;
+        uniform mat4 t_xformMatrix; 
+        void main() {
+            gl_Position = t_xformMatrix * aPosition;
+        }
+        `;
+
+        // 片元着色器
+        // uniform --- 顶点着色器和片元着色器都可以使用，不能传递顶点信息
+        const FRAGMENT_SHADER_SOURCE = `
+        // 设置精度
+        precision mediump float; 
+        uniform vec2 uColor;
+        void main() {
+            // r,g,b,a
+            gl_FragColor = vec4(uColor.r, uColor.g, 0.0, 1.0);
+        }
+        `;
+        
+        // x, y, z方向上的缩放系数
+        let Sx = 1.0, Sy = 1.5, Sz = 1.0;
+        const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+        
+        const xformMatrix = new Float32Array([
+            Sx, 0.0, 0.0, 0.0,
+            0.0, Sy, 0.0, 0.0,
+            0.0, 0.0, Sz, 0.0,
+            0.7, 0.5, 0.0, 1.0
+        ])
+        // 获取attribute变量 program: 程序对象 name: 变量地址
+        const aPosition = gl.getAttribLocation(program, 'aPosition')
+        const t_xformMatrix = gl.getUniformLocation(program, 't_xformMatrix');
+        // 设置变量值
+        gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0)
+        gl.uniformMatrix4fv(t_xformMatrix, false, xformMatrix)
+       
+        const points = new Float32Array([
+            -0.5, -0.5,
+            0.5, -0.5,
+            0.0, 0.5
+        ])
+        // 创建内存区域
+        const buffer = gl.createBuffer();
+        // target: gl.ARRAR_BUFFER 表示缓冲区存储的是顶点数据 gl.ELEMENT_ARRAY_BUFFER 表示缓冲区存储的是顶点的索引值
+        // 把缓冲区对象绑定到gl上
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+
+        // gl.bufferData(tartget, data, type) target data写入缓冲区的顶点数据 type 如何使用缓冲区对象中的数据 gl.STATIC_DRAW 写入一次多次绘制
+        // gl.STREAM_DRAW 写入一次绘制若干次 gl.DYNAMIC_DRAW 写入多次绘制多次
+        gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW)
+        
+        // gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
+        // location attribute变量的存储位置 size指定每个顶点所使用数据的个数 type数据格式 normalized 是否将数据归一化到[0, 1][-1, 1]的区间
+        // stride 两个相邻顶点之间的字节数 offset 数据偏移量
+        gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0)
+        // 激活变量
+        gl.enableVertexAttribArray(aPosition)
+
+        // 获取unifrom变量 program: 程序对象 name: 变量地址
+        const uColor = gl.getUniformLocation(program, 'uColor')
+        gl.uniform2f(uColor, 0.5, 0.6)
+
+        // 执行绘制 --- 要绘制的图形，从哪里开始，使用几个顶点
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+       
+    </script>
+</body>
+</html>
